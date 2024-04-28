@@ -17,8 +17,9 @@
 #'
 #' @return              a list with values "pi", "mu", and "sd" of length ncomp
 #'
-#' @importFrom ppclust2 fpppcm
+#' @importFrom ppclust  fpppcm
 #' 
+#' @seealso ppclust::fpppcm
 #' @seealso mixR::initz
 #'
 #' @export

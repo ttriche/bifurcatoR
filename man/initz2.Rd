@@ -36,5 +36,7 @@ Hopefully we can eliminate the nasty kludge by contributing this to mixR.
 }
 
 \seealso{
+ppclust::fpppcm
+
 mixR::initz
 }

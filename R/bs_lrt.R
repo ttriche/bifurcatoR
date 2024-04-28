@@ -1,4 +1,3 @@
-
 #' bootstrap likelihood ratio tests for mixR fits
 #'
 #' The mixR package provides fast implementations for a number of 1-dimensional
@@ -23,51 +22,13 @@
 #' @seealso mixR::bs.test
 #' @seealso mixR
 #'
-#' 
-
 #' @import mixR
-#' @import ppclust
+#' @importFrom ppclust fpppcm
 #'
 #' @export
 bs_lrt <- function(x, H0=1, H1=2, family="normal", nboot=1e2, iter=1e3, ...){
   
-  #Our own initz with fuzzy c means if kmeans fails
-  initz2 <-  function(x, ncomp, init.method = c("kmeans", "hclust","fuzzy")) {
-    
-    init.method = match.arg(init.method)
-    # check if 'x' is a matrix (from grouped data)
-    if(is.matrix(x)) {
-      x <- reinstate(x)
-    }
-    if(init.method == "kmeans") {
-      a <- kmeans(x, centers = ncomp,nstart = 1)$cluster
-      if(any(table(a) < length(x) *0.05)){
-        a <- fpppcm(x,centers = ncomp)$cluster
-      }
-    } else {
-      a <- cutree(hclust(dist(x)), ncomp)
-      # a <- fpppcm(x,centers = ncomp)$cluster
-    } 
-    res <- list()
-    for(i in 1:ncomp) {
-      res[[i]] <- x[a == i]
-    }
-    count <- sapply(res, length)
-    pi <- count / sum(count)
-    mu <- sapply(res, mean)
-    sd <- sapply(res, sd)
-    
-    order <- order(mu)
-    
-    pi <- pi[order]
-    mu <- mu[order]
-    sd <- sd[order]
-    list(pi = pi, mu = mu, sd = sd)
-  }
-  
-  # unlockBinding("initz", as.environment("package:mixR"))
-  # assign("initz", initz2, "package:mixR")
-  
+  # honestly we should just full overwrite this 
   unlockBinding("initz",  getNamespace("mixR"))
   assign("initz", initz2,  getNamespace("mixR"))
   
